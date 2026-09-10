@@ -33,3 +33,7 @@ function greetUser(name) {
 }
 
 greetUser("Juha");
+
+function showMessage() {
+    alert("HAAHAA!");
+}
