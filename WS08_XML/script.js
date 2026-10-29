@@ -28,14 +28,14 @@ const xml = new DOMParser().parseFromString(xmlText, "application/xml");
 
 // Poimitaan elementtien value-attribuutit.
 const temperature = xml.querySelector("temperature").getAttribute("value");
-// const humidity = xml.querySelector("humidity").getAttribute("value");
-// const clouds = xml.querySelector("clouds").getAttribute("value");
+const humidity = xml.querySelector("humidity").getAttribute("value");
+const clouds = xml.querySelector("clouds").getAttribute("value");
 
 
 // Näytetään tiedot sivulla.
 // Lisää tähän tarvittavat rivit, jotta näytetään myös kosteus ja pilvisyys.
 weatherdata.textContent =
-    `Helsinki: lämpötila ${temperature} °C`;
+    `Helsinki: lämpötila ${temperature} °C, kosteus ${humidity} %, pilvisyys ${clouds} %`;
 
 
     } catch (error) {
