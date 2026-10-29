@@ -1,4 +1,4 @@
-const apiKey = "OMA_API_AVAIN"; // Korvaa käytössäsi olevalla avaimella.
+const apiKey = "d9a55586f7e50a81dc1c804b7f3f9f8c"; // Korvaa käytössäsi olevalla avaimella.
 const weatherdata = document.getElementById("weatherdata");
 
 document.getElementById("fetchWeather").addEventListener("click", async function () {
