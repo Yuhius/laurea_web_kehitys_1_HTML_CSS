@@ -15,11 +15,53 @@ const formResult = document.getElementById("formResult");
 animalForm.addEventListener("submit", function (event) {
     event.preventDefault();
     // TODO: Clear previous errors / Tyhjennä edelliset virheet.
+    nameError.textContent = "";
+    speciesError.textContent = "";
+    noteError.textContent = "";
+    formResult.textContent = "";
+
     // TODO: Read and trim values / Lue ja trimmaa kenttien arvot.
+    const name = animalName.value.trim();
+    const species = animalSpecies.value.trim();
+    const note = careNote.value.trim();
+
+    let isValid = true;
+
     // TODO: Validate and show errors / Validoi ja näytä virheet.
+    if (name === "") {
+        nameError.textContent = "Eläimen nimi ei saa olla tyhjä.";
+        animalName.classList.add("invalid");
+        isValid = false;
+    }
+
+    if (species === "") {
+        speciesError.textContent = "Eläimen laji ei saa olla tyhjä.";
+        animalSpecies.classList.add("invalid");
+        isValid = false;
+    }
+
+    if (note.length < 1 || note.length > 150) {
+        noteError.textContent = "Hoitomuistion pituuden pitää olla 1-150 merkkiä.";
+        careNote.classList.add("invalid");
+        isValid = false;
+    }
+
     // TODO: If valid, show the result / Näytä hyväksytty tulos.
     // TODO: Create { name, species, note } and save it as JSON.
     // TODO: Luo { name, species, note } ja tallenna se JSON-tekstinä.
+    if (isValid) {
+        const animalData = {
+            name: name,
+            species: species,
+            note: note
+        };
+
+        const jsonOutput = JSON.stringify(animalData);
+
+        formResult.textContent = `${animalData.name} / ${animalData.species} / ${animalData.note}`;
+
+        console.log("Tallennettu JSON:", jsonOutput);
+    }
 });
 
 // Exercise 2 / Harjoitus 2
