@@ -73,11 +73,36 @@ const discountMessage = document.getElementById("discountMessage");
 
 sponsorForm.addEventListener("submit", function (event) {
     event.preventDefault();
+
     // TODO: Convert input values with Number().
     // TODO: Muunna syötteet numeroiksi Number()-funktiolla.
+    const pricePerYear = Number(animalType.value);
+    const years = Number(yearsInput.value);
+
+    if (!Number.isInteger(years) || years <= 0) {
+        cost.textContent = "Virhe: Vuosien määrän on oltava positiivinen kokonaisluku.";
+        discountMessage.textContent = "";
+        return;
+    }
+
     // TODO: Calculate the price and apply discounts.
     // TODO: Laske hinta ja alennukset.
+    let totalPrice = pricePerYear * years;
+    let discountInfo = "";
+
+    if (years > 2) {
+        totalPrice = totalPrice * 0.80;
+        discountInfo = "Sait 20 % alennuksen (yli 2 vuotta).";
+    }
+
+    if (years >= 5) {
+        totalPrice = totalPrice - 5;
+        discountInfo += " Lisäksi -5 € lisäalennus (vähintään 5 vuotta).";
+    }
+
     // TODO: Show the result / Näytä tulos.
+    cost.textContent = `Yhteensä: ${totalPrice.toFixed(2)} €`;
+    discountMessage.textContent = discountInfo;
 });
 
 // Exercise 4 / Harjoitus 4
