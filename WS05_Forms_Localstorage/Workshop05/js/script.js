@@ -58,6 +58,8 @@ animalForm.addEventListener("submit", function (event) {
 
         const jsonOutput = JSON.stringify(animalData);
 
+        localStorage.setItem("ws05Animal", jsonOutput);
+
         formResult.textContent = `${animalData.name} / ${animalData.species} / ${animalData.note}`;
 
         console.log("Tallennettu JSON:", jsonOutput);
