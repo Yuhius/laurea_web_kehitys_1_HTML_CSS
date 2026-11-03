@@ -6,7 +6,7 @@ const searchBtn = document.querySelector("#search");
 const weatherDataDiv = document.querySelector("#weatherdata");
 
 // API-avain ja pohjaosoite (tehtävänannosta annettu esimerkkiavain)
-const apiKey = "d9a55586f7e50a81dc1c804b7f3f9f8c";
+const apiKey = "YOUR_API_KEY";
 
 // Yhteinen funktio säätietojen hakemiseen ja näyttämiseen
 async function fetchWeather(city) {
