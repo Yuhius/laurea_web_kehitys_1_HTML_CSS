@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Koodikissan kaapattu sääennuste</title>
+  <style>
+    /* Keskitetään sisältö vaakasuunnassa ja pystysuunnassa. */
+    body {
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 1.25rem;
+      color: #f3f7ff;
+      background: #0c1429;
+      font-family: system-ui, sans-serif;
+    }
+
+    /* Sisältöalue mahtuu kapealle näytölle ja on enintään 42 rem leveä. */
+    main {
+      width: min(100%, 42rem);
+      box-sizing: border-box;
+      padding: clamp(1.5rem, 6vw, 3.25rem);
+      border: 1px solid #52698c;
+      border-top: 4px solid #b5f977;
+      border-radius: 1rem;
+      background: #172443;
+    }
+
+    h1 { margin: 0; font-size: clamp(2rem, 6vw, 3rem); line-height: 1.1; }
+
+    /* Vähimmäiskorkeus varaa ennusteelle tilaa myös lyhyillä viesteillä. */
+    .forecast {
+      min-height: 3em;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      background: #0c1429;
+      color: #c7ffa0;
+      font: 1.15rem / 1.5 ui-monospace, monospace;
+    }
+
+    button {
+      padding: 0.75rem 1rem;
+      border: 0;
+      border-radius: 0.5rem;
+      color: #0c1429;
+      background: #b5f977;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover { background: #d3ffac; }
+
+    /* Näytetään kohdistus selvästi esimerkiksi sarkaimella liikuttaessa. */
+    button:focus-visible { outline: 2px solid #f3f7ff; outline-offset: 4px; }
+
+    /* Piilotetaan teksti näkyvistä niin, että ruudunlukija voi lukea sen. */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1><span aria-hidden="true">🐱</span> Koodikissan kaapattu sääennuste</h1>
+
+    <!-- Animaation satunnaiset merkit piilotetaan ruudunlukijalta.
+         Ruudunlukija saa valmiin ennusteen erillisestä tilaviestistä. -->
+    <p id="ennuste" class="forecast" aria-hidden="true">[ ENNUSTE SALATTU ]</p>
+    <p id="tulos" class="sr-only" role="status"></p>
+
+    <button id="paljasta" type="button">Pura kissakoodi</button>
+  </main>
+
+  <!-- Ladataan Baffle.js ennen omaa JavaScript-koodia. -->
+  <script src="https://cdn.jsdelivr.net/npm/baffle@0.3.6/dist/baffle.min.js"></script>
+  <script>
+    // Ennusteet näytetään listan järjestyksessä. Lisää oma ennusteesi tähän.
+    const ennusteet = [
+      "Päivällä kuuroja. Yöllä maukuja.",
+      "Sataa tonnikalaa. Ulkoile haarukalla.",
+      "Tuulen nopeus: kolme kissaa sekunnissa.",
+      "Kissoja sataa koirien kanssa. Ota luuvarjo."
+    ];
+
+    const ennuste = document.getElementById("ennuste");
+    const tulos = document.getElementById("tulos");
+
+    // Luodaan animaatio, jos Baffle.js latautui. Muuten ennuste näytetään suoraan.
+    const animaatio = typeof baffle === "function" ? baffle("#ennuste") : null;
+
+    // Tarkistetaan klikkauksen yhteydessä, suosiiko käyttäjä vähennettyä liikettä.
+    const vahennettyLiike = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let indeksi = 0;
+
+    document.getElementById("paljasta").addEventListener("click", () => {
+      const viesti = ennusteet[indeksi];
+
+      // Jakojäännös (%) palauttaa indeksin nollaan viimeisen ennusteen jälkeen.
+      indeksi = (indeksi + 1) % ennusteet.length;
+
+      // Välitetään valmis ennuste ruudunlukijan tilaviestiin.
+      tulos.textContent = viesti;
+
+      if (animaatio && !vahennettyLiike.matches) {
+        // Asetetaan uusi teksti, sekoitetaan merkit ja paljastetaan viesti 900 ms:ssa.
+        animaatio.text(() => viesti).start().reveal(900);
+      } else {
+        // Päätetään mahdollinen käynnissä oleva animaatio ja näytetään viesti heti.
+        animaatio?.reveal();
+        ennuste.textContent = viesti;
+      }
+    });
+  </script>
+</body>
+</html>
