@@ -113,7 +113,7 @@
 
       if (animaatio && !vahennettyLiike.matches) {
         // Asetetaan uusi teksti, sekoitetaan merkit ja paljastetaan viesti 900 ms:ssa.
-        animaatio.text(() => viesti).start().reveal(900);
+        animaatio.text(() => viesti).start().reveal(2000);
       } else {
         // Päätetään mahdollinen käynnissä oleva animaatio ja näytetään viesti heti.
         animaatio?.reveal();
